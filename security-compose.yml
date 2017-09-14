@@ -1,24 +1,11 @@
 version: '2'
 services:
   naxsi:
-    image: scollazo/naxsi-waf-with-ui:latest
+    build: ./proxy
     ports:
       - "80:80"
-      - "8080:8080"
     environment:
-      BACKEND_IP: "13.95.222.243"
-      LEARNING_MODE: "yes"
-    # KIBANA_PASSWORD: "your-supersecret-password"
-    external_links:
-      - elasticsearch
-      - kibana
-#    logging:
-#      driver: gelf
-#      options:
-#        gelf-address: udp://localhost:12201
-#        tag: "security"
-    volumes:
-      - ./nginx/naxsi-local-rules:/etc/nginx/naxsi-local-rules
+      PROXY_REDIRECT_IP: "13.95.222.243"
 
 networks:
   default:
