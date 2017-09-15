@@ -45,8 +45,12 @@ server {
 		include /etc/nginx/naxsi.rules;
 		include /etc/nginx/naxsi-local-rules/*.rules;
 		proxy_http_version 1.1;
-		proxy_read_timeout 1h
-        proxy_pass              http://proxy_redirect_ip;
+		proxy_send_timeout 86400s;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Host $host;
+     #   proxy_set_header Connection "upgrade";
+        proxy_pass http://proxy_redirect_ip;
+
 	}
 
 	# Only for nginx-naxsi used with nginx-naxsi-ui : process denied requests

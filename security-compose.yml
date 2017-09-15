@@ -5,7 +5,10 @@ services:
     ports:
       - "80:80"
     environment:
-      PROXY_REDIRECT_IP: "13.95.222.243"
+      BACKEND_IP: "13.95.222.243"
+      LEARNING_MODE : "no"
+    external_links:
+      - elasticsearch:elasticsearch
 
 networks:
   default:

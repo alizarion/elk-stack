@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #Check if we are asked to process old logs
 
@@ -20,3 +20,7 @@ if [ x${LEARNING_MODE} != x"yes" ]
 	else
 	echo "LearningMode is enabled"
 fi
+
+echo $@
+
+exec "$@"
