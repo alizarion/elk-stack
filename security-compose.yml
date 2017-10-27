@@ -4,9 +4,10 @@ services:
     build: ./proxy
     ports:
       - "80:80"
+      - "443:443"
     environment:
       BACKEND_IP: "13.95.222.243"
-      LEARNING_MODE : "no"
+      LEARNING_MODE : "yes"
     external_links:
       - elasticsearch:elasticsearch
 

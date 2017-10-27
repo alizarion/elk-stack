@@ -1,0 +1,32 @@
+{
+  "_index": "nxapi",
+  "_type": "events",
+  "_id": "AV7oHuPwI8szl5eDowBE",
+  "_version": 1,
+  "_score": null,
+  "_source": {
+    "zone": "BODY",
+    "ip": "172.17.0.1",
+    "whitelisted": "false",
+    "uri": "/itesoft-messaging/rest/topics/chat:2/subscribe",
+    "comments": "import:2017-10-04 16:01:32.136354",
+    "server": "localhost",
+    "content": "",
+    "var_name": "",
+    "coords": [
+      104.195397,
+      35.86166
+    ],
+    "country": "CN",
+    "date": "2017-10-04T16:01:31+00",
+    "id": "15"
+  },
+  "fields": {
+    "date": [
+      1507132891000
+    ]
+  },
+  "sort": [
+    1507132891000
+  ]
+}

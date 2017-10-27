@@ -1,0 +1,55 @@
+DELETE /naxsi
+PUT /naxsi
+
+PUT naxsi/_mapping/naxsi
+{
+  "properties": {
+    "whitelisted": { 
+      "type":     "text",
+      "fielddata": true
+    }
+  }
+}
+
+PUT naxsi/_mapping/naxsi
+{
+  "properties": {
+    "server": { 
+      "type":     "text",
+      "fielddata": true
+    }
+  }
+}
+
+
+PUT naxsi/_mapping/naxsi
+{
+  "properties": {
+    "uri": { 
+      "type":     "text",
+      "fielddata": true
+    }
+  }
+}
+
+PUT naxsi/_mapping/naxsi
+{
+  "properties": {
+    "zone": { 
+      "type":     "text",
+      "fielddata": true
+    }
+  }
+}
+PUT naxsi/_mapping/naxsi
+{
+  "properties": {
+    "ip": { 
+      "type":     "text",
+      "fielddata": true
+    }
+  }
+}
+
+
+
