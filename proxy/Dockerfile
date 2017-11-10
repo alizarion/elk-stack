@@ -107,13 +107,6 @@ RUN set -ex ; \
     ; \
     \
     export GNUPGHOME="$(mktemp -d)" ; \
-    gpg \
-        --keyserver "pgp.mit.edu" \
-        --keyserver-options timeout=10 \
-        --recv-keys $gpg_keys \
-    ; \
-    gpg --batch --verify nginx.tar.gz.asc nginx.tar.gz ; \
-    gpg --batch --verify naxsi.tar.gz.asc naxsi.tar.gz ; \
     tar -xzf naxsi.tar.gz ; \
     tar -xzf nginx.tar.gz ; \
     \

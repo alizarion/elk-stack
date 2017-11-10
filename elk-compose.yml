@@ -1,25 +1,43 @@
 version: '2'
 services:
-  logstash:
-    image: docker.elastic.co/logstash/logstash:5.3.0
+  cadvisor:
+    image: google/cadvisor:latest
+    volumes:
+      - "/:/rootfs:ro"
+      - "/var/run:/var/run:rw"
+      - "/sys:/sys:ro"
+      - "/var/lib/docker/:/var/lib/docker:ro"
+      - "/dev/disk/:/dev/disk:ro"
+    restart: on-failure
+    environment:
+      - "LOGSPOUT=ignore"
     ports:
-      - "12201:12201/udp"
-      - "5000:5000/udp"
+      - "8084:8080"
+    links:
+        - elasticsearch
+    networks:
+      - monitoring
+  logstash:
+    build: ./logstash
+    ports:
+      - "12201:12201"
+      - "5000:5000"
+    restart: on-failure
     environment:
       - "xpack.monitoring.elasticsearch.url=http://elasticsearch:9200"
       - "LOGSPOUT=ignore"
-    volumes:
-      - ./conf:/usr/share/logstash/pipeline
-      - ./patterns:/etc/logstash/patterns
     links:
       - elasticsearch:elasticsearch
     depends_on:
       - elasticsearch
     command: logstash -f /usr/share/logstash/pipeline/ --config.reload.automatic
+    networks:
+       - monitoring
   kibana:
     image: docker.elastic.co/kibana/kibana:5.3.0
     ports:
       - "5601:5601"
+    restart: on-failure
     environment:
       ELASTICSEARCH_URL: http://elasticsearch:9200
       XPACK_SECURITY_ENABLED: "false"
@@ -28,28 +46,21 @@ services:
       - elasticsearch:elasticsearch
     depends_on:
       - elasticsearch
-  logspout:
-    image: bekt/logspout-logstash
-    restart: on-failure
-    environment:
-       ROUTE_URIS: logstash://logstash:5000
-    links:
-       - logstash 
-    volumes:
-       - /var/run/docker.sock:/tmp/docker.sock
+    networks:
+      - monitoring
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:5.3.0
     ports:
       - "9200:9200"
-    logging:
-      driver: none 
+    restart: on-failure
     environment:
       - "http.host=0.0.0.0"
       - "transport.host=127.0.0.1"
       - "ES_JAVA_OPTS=-Xmx2g -Xms2g"
       - "xpack.security.enabled=false"   
       - "LOGSPOUT=ignore"
+    networks:
+      - monitoring
 networks:
-  default:
-    external:
-      name: ${COMPOSE_NETWORK}    
+    monitoring:
+       driver: bridge

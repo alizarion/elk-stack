@@ -29,7 +29,6 @@ server {
 
 	root /usr/share/nginx/html;
 	index index.html index.htm;
-
 	server_name %SERVER_NAME%;
 
 
@@ -60,8 +59,12 @@ server {
 		proxy_send_timeout 86400s;
 		proxy_set_header Upgrade $http_upgrade;
 		proxy_set_header Host $host;
-
         proxy_pass   http://proxy_redirect_ip/;
+        # workaround for p+ admin does not manage https
+        proxy_set_header Accept-Encoding "";
+        sub_filter_once off;
+        sub_filter http://$host https://$host;
+
 
 	}
 

@@ -5,8 +5,9 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    restart: on-failure
     environment:
-      BACKEND_IP: "13.95.222.243"
+      BACKEND_IP: "10.2.40.102:83"
       LEARNING_MODE : "yes"
     external_links:
       - elasticsearch:elasticsearch
@@ -14,4 +15,4 @@ services:
 networks:
   default:
     external:
-      name: ${COMPOSE_NETWORK}
+      name: "elkstack_monitoring"

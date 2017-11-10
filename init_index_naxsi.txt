@@ -50,6 +50,28 @@ PUT naxsi/_mapping/naxsi
     }
   }
 }
+PUT naxsi/_mapping/naxsi
+{
+  "properties": {
+    "id": { 
+      "type":     "text",
+      "fielddata": true
+    }
+  }
+}
+
+PUT naxsi/_mapping/naxsi
+{
+  "properties": {
+    "var_name": { 
+      "type":     "text",
+      "fielddata": true
+    }
+  }
+}
+
+
+
 
 
 

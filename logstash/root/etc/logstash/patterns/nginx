@@ -1,0 +1,26 @@
+NGUSERNAME [a-zA-Z\.\@\-\+_%]+
+NGUSER %{NGUSERNAME}
+NGINXACCESS %{IPORHOST:clientip} %{NGUSER:ident} %{NGUSER:auth} \[%{HTTPDATE:timestamp}\] "%{WORD:verb} %{URIPATHPARAM:request} HTTP/%{NUMBER:httpversion}" %{NUMBER:response} (?:%{NUMBER:bytes}|-) (?:"(?:%{URI:referrer}|-)"|%{QS:referrer}) %{QS:agent}
+
+
+NGINX_ERROR %{DATESTAMP:messagetimestamp} [%{LOGLEVEL:severity}] (%{NUMBER:pid:int}#%{NUMBER}: *%{NUMBER}|*%{NUMBER}) %{DATA:nginx_error_message}, client: %{IPORHOST:client_ip}, server: %{IPORHOST:http_server}, request: "%{WORD:http_verb} %{DATA:http_uri} HTTP/%{NUMBER:http_version}", host: "%{DATA:http_host}"
+
+NAXSITIMESTAMP ((?:2|1)\d{3}(?:-|\/)(?:(?:0[1-9])|(?:1[0-2]))(?:-|\/)(?:(?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))(?:T|\s)(?:(?:[0-1][0-9])|(?:2[0-3])):(?:[0-5][0-9]):(?:[0-5][0-9]))
+
+NAXSIZONE (?<=&zone=)([A-Z]*)
+NAXSILEARNING (?<=learning=)[0|1]{1}
+NAXSIVERSION (?<=vers=)[A-Za-z0-9.\-]{1,10}
+NAXSISERVER (?<=server=).*?(?=&|,|\s|$)
+NAXSICLIENT (?<=client:\s).*?(?=&|,|\s|$)
+NAXSIURI (?<=uri=).*?(?=&|,|\s|$)
+NAXSIID (?<=id=)\d*?(?=&|,|\s|$)
+NAXSIVARNAME (?<=var_name=)\d*?(?=&|,|\s|$)
+NAXSICONTENT (?<=content=).*?(?=&|,|\s|$)
+NAXSIDATE %{YEAR}/%{MONTHNUM}/%{MONTHDAY}[T ]%{HOUR}:?%{MINUTE}(?::?%{SECOND})
+
+NAXSIEXLOG (?=.*%{NAXSICONTENT:content})(?=.*%{NAXSIZONE:zone})(?=.*%{NAXSISERVER:server})(?=.*%{NAXSICLIENT:ip})(?=.*%{NAXSIURI:uri})(?=.*%{NAXSIID:id})(?=.*%{NAXSIVARNAME:var_name})
+
+NAXSIFMT (?=.*%{NAXSILEARNING:learing})(?=.*%{NAXSICONTENT:content})(?=.*%{NAXSIVERSION:vers})(?=.*%{NAXSIZONE:zone})(?=.*%{NAXSISERVER:server})(?=.*%{NAXSICLIENT:ip})(?=.*%{NAXSIURI:uri})(?=.*%{NAXSID:id})(?=.*%{NAXSIVARNAME:var_name})
+
+NGINX_ACCESS %{IPORHOST:visitor_ip} (?:-|(%{WORD}.%{WORD})) %{WORD:nginx_cache_status} \[%{HTTPDATE:timestamp}\] %{HOSTNAME:nginx_host} "%{WORD:method} %{URIPATHPARAM:request} HTTP/%{NUMBER:httpversion}" %{NUMBER:response} %{NUMBER:bytes} %{QS:ignore} %{QS:referrer}
+NGINX_ERROR %{DATE} %{TIME} %{GREEDYDATA:error} limiting requests, excess: %{GREEDYDATA:limit} client: %{IPORHOST:visitor_ip}, server: %{HOSTNAME:nginx_host}, request: "%{WORD:method} %{URIPATHPARAM:request} HTTP/%{NUMBER:httpversion}", %{GREEDYDATA:msg}
