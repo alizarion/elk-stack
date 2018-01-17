@@ -21,7 +21,7 @@ services:
     build: ./logstash
     ports:
       - "12201:12201"
-      - "5000:5000"
+      - "5000:5000/udp"
     restart: on-failure
     environment:
       - "xpack.monitoring.elasticsearch.url=http://elasticsearch:9200"
@@ -48,6 +48,17 @@ services:
       - elasticsearch
     networks:
       - monitoring
+  logspout:
+      image: bekt/logspout-logstash
+      restart: on-failure
+      environment:
+         ROUTE_URIS: logstash://logstash:5000
+      links:
+         - logstash
+      volumes:
+         - /var/run/docker.sock:/tmp/docker.sock
+      networks:
+         - monitoring
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:5.3.0
     ports:
